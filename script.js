@@ -84,6 +84,40 @@ $('.card-container').on('click', '.arrow-down',  function() {
   localStorage.setItem(id, JSON.stringify(parsedIdea));
 })
 
+$('.card-container').on('click', '.completed', function(){
+  var card = $(this).parent().parent()
+  var task = card.find('.idea-task').val();
+  var title = card.find('.idea-title').val();
+  var container = card.parent()
+  console.log(container);
+  console.log(title)
+  // container.filter(index, function(){
+  //   if(card.prop('title') === title){
+  //     return index.prop('id');
+  //   }
+  //   console.log(index.prop('id'))
+  // })
+  var idea = new Idea(title, task);
+  (card.find('.idea-task').toggleClass('task-click'));
+  console.log(card.find('.idea-task'))
+
+  $('#container').toggleClass(localStorage.toggled);
+
+   /* Toggle */
+   $('.bar-toggle').on('click',function(){
+
+      //localstorage values are always strings (no booleans)
+
+      if (localStorage.toggled != "with_toggle" ) {
+         $('#container').toggleClass("with_toggle", true );
+         localStorage.toggled = "with_toggle";
+      } else {
+         $('#container').toggleClass("with_toggle", false );
+         localStorage.toggled = "";
+      }
+   });
+})
+
 //********************************************************************************
 //   functions
 //*********************************************************************************
@@ -94,11 +128,12 @@ function prepend(idea)  {
       <input class='idea-title idea-input' type='text' value='${idea.title}'>
       <button class='delete-btn'></button>
       <textarea cols='30' rows='10' class='idea-task idea-input' type='text' value=''>${idea.task}</textarea>
-      <section class='button-container'>
+      <section class='btn-container'>
         <button class='arrow-up'></button>
         <button class='arrow-down'></button>
         <p class='quality'>quality:</p>
         <p class='quality-value'> ${idea.quality}</p>
+        <button class='completed'>Completed Task</button>
       </section>
       <hr />
     </article>
@@ -147,20 +182,26 @@ function getFromStorage(id) {
 	return parsedIdea;
 }
 
-$('.card-container').on('click', '.delete-btn', function (){
+$('.card-container').on('click', '.delete-btn', deleteThis)
+
+function deleteThis(){
   var id = $(this).parent().prop('id');
   localStorage.removeItem(id);
   $(this).parent().remove();
-});
+};
 
 $(".search-input").on("keyup", function() {
-  var searchText = this.value
+  var localArray = []
+  var searchText = this.value.toUpperCase();
+  console.log(searchText);
   $(".idea-input").each( function(index, ideaCard){
-    if(!ideaCard.value.includes(searchText)) {
-      console.log($(this).closest("article"))
-      $(this).closest(".idea-card").hide()
-    } else {
+    localArray.push(ideaCard.value.toUpperCase())
+    console.log(localArray)
+    if(ideaCard.value.toUpperCase().includes(searchText)) {
+      console.log(ideaCard)
       $(this).closest(".idea-card").show()
+    } else {
+      $(this).closest(".idea-card").hide()
     }
   })
 })
