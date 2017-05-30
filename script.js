@@ -218,7 +218,7 @@ function filterList() {
   var fullList = getAllFromLocalStorage();
   filteredList = fullList.filter(function(item){
     console.log(item.task);
-    return item.title.toUpperCase().includes(searchText) || item.task.toUpperCase().includes(searchText);
+    return item.title.toUpperCase().includes(searchText) || item.task.toUpperCase().includes(searchText) || item.quality.toUpperCase().includes(searchText);
   })
   if (filteredList.length > 0) {
     displaySearchResults(filteredList);
