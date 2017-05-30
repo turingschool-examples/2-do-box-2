@@ -185,11 +185,6 @@ main{
 }
 
 .task-click {
-  font-size: 12px;
-  width: 300px;
-  height: 100px;
-  margin-top: 10px;
-  margin-bottom: 10px;
   resize: none;
   color: red;
   text-decoration: line-through;

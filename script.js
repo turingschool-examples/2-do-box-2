@@ -6,6 +6,7 @@ function Idea(title, task)  {
   this.task = task;
   this.quality = 'Swill';
   this.id = Date.now();
+  this.status = status;
 }
 
 //************************************************************
@@ -85,21 +86,31 @@ $('.card-container').on('click', '.arrow-down',  function() {
 })
 
 $('.card-container').on('click', '.completed', function(){
-  var card = $(this).parent().parent()
-  var task = card.find('.idea-task').val();
-  var title = card.find('.idea-title').val();
+  var card = $(this).closest('.idea-card');
+  var tast = card.find('.idea-task');
+  var id = card.attr('id');
+  // var task = card.find('.idea-task').val();
+  // var title = card.find('.idea-title').val();
+  var grabCard = getFromStorage(id);
+  console.log(grabCard, 'grabCard');
   var container = card.parent()
-  console.log(container);
-  console.log(title)
-  // container.filter(index, function(){
-  //   if(card.prop('title') === title){
-  //     return index.prop('id');
-  //   }
-  //   console.log(index.prop('id'))
-  // })
-  var idea = new Idea(title, task);
-  (card.find('.idea-task').toggleClass('task-click'));
+  // console.log(card);
+  // console.log(title)
+  console.log(card, 'before');
+  tast.toggleClass('task-click');
+
+  if(card.hasClass('task-click')){
+    grabCard.status = 'completed';
+    console.log(card);
+    sendToStorage(card)
+  }
+  else{
+    grabCard.status = 'not completed';
+    sendToStorage(card)
+  }
   console.log(card.find('.idea-task'))
+
+
 
   $('#container').toggleClass(localStorage.toggled);
 
@@ -190,18 +201,35 @@ function deleteThis(){
   $(this).parent().remove();
 };
 
-$(".search-input").on("keyup", function() {
-  var localArray = []
-  var searchText = this.value.toUpperCase();
-  console.log(searchText);
-  $(".idea-input").each( function(index, ideaCard){
-    localArray.push(ideaCard.value.toUpperCase())
-    console.log(localArray)
-    if(ideaCard.value.toUpperCase().includes(searchText)) {
-      console.log(ideaCard)
-      $(this).closest(".idea-card").show()
-    } else {
-      $(this).closest(".idea-card").hide()
-    }
+
+
+
+function getAllFromLocalStorage(){
+  var allItems =[];
+  for (var i = 0; i < localStorage.length; i++) {
+    allItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+  }
+  return allItems;
+}
+
+function filterList() {
+  var filteredList = [];
+  var searchText = $('.search-input').val().toUpperCase();
+  var fullList = getAllFromLocalStorage();
+  filteredList = fullList.filter(function(item){
+    console.log(item.task);
+    return item.title.toUpperCase().includes(searchText) || item.task.toUpperCase().includes(searchText);
   })
-})
+  if (filteredList.length > 0) {
+    displaySearchResults(filteredList);
+  }
+}
+
+function displaySearchResults(searchResults) {
+  $('.card-container').empty();
+  searchResults.forEach(function(item){
+    prepend(item);
+  })
+}
+
+$(".search-input").on("keyup", filterList);
