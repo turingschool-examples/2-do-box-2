@@ -6,7 +6,7 @@ function Idea(title, task)  {
   this.task = task;
   this.quality = 'Swill';
   this.id = Date.now();
-  this.status = status;
+  this.status = 'idea-card';
 }
 
 //************************************************************
@@ -87,47 +87,45 @@ $('.card-container').on('click', '.arrow-down',  function() {
 
 $('.card-container').on('click', '.completed', function(){
   var card = $(this).closest('.idea-card');
-  var tast = card.find('.idea-task');
+  var task = card.find('.idea-task');
   var id = card.attr('id');
-  // var task = card.find('.idea-task').val();
-  // var title = card.find('.idea-title').val();
   var grabCard = getFromStorage(id);
-  console.log(grabCard, 'grabCard');
-  var container = card.parent()
-  // console.log(card);
-  // console.log(title)
-  console.log(card, 'before');
-  tast.toggleClass('task-click');
-
-  if(card.hasClass('task-click')){
-    grabCard.status = 'completed';
-    console.log(card);
-    sendToStorage(card)
-  }
-  else{
-    grabCard.status = 'not completed';
-    sendToStorage(card)
-  }
-  console.log(card.find('.idea-task'))
+    card.toggleClass('task-click')
+    console.log(card.attr('class'));
+  var clickedCard = card.attr('class');
+  grabCard.status = clickedCard;
+  sendToStorage(grabCard);
 
 
+  // var clicked = $(this).closest('.task-click')
+  // card.toggleClass('task-click') && task.toggleClass('task-click');
+  // sendToStorage(grabCard)
+  // if(card.hasClass('task-click')){
+  //   grabCard.status = 'completed';
+  //   sendToStorage(card);
+  //   console.log(card);
+  // }else{
+  //   grabCard.status = 'not completed';
+  //   sendToStorage(card)
+  // }
+});
 
-  $('#container').toggleClass(localStorage.toggled);
-
+  // $('.task-click').toggleClass(localStorage.toggled);
+  // console.log(id);
    /* Toggle */
-   $('.bar-toggle').on('click',function(){
+  //  $('').on('click',function(){
 
       //localstorage values are always strings (no booleans)
 
-      if (localStorage.toggled != "with_toggle" ) {
-         $('#container').toggleClass("with_toggle", true );
-         localStorage.toggled = "with_toggle";
-      } else {
-         $('#container').toggleClass("with_toggle", false );
-         localStorage.toggled = "";
-      }
-   });
-})
+//       if (localStorage.toggled != "with_toggle" ) {
+//          $('#container').toggleClass("with_toggle", true );
+//          localStorage.toggled = "with_toggle";
+//       } else {
+//          $('#container').toggleClass("with_toggle", false );
+//          localStorage.toggled = "";
+//       }
+//    });
+// )
 
 //********************************************************************************
 //   functions
@@ -135,7 +133,7 @@ $('.card-container').on('click', '.completed', function(){
 
 function prepend(idea)  {
   $('.card-container').prepend(`
-    <article class='idea-card'id=${idea.id}>
+    <article class='${idea.status}' id='${idea.id}'>
       <input class='idea-title idea-input' type='text' value='${idea.title}'>
       <button class='delete-btn'></button>
       <textarea cols='30' rows='10' class='idea-task idea-input' type='text' value=''>${idea.task}</textarea>
@@ -143,7 +141,7 @@ function prepend(idea)  {
         <button class='arrow-up'></button>
         <button class='arrow-down'></button>
         <p class='quality'>quality:</p>
-        <p class='quality-value'> ${idea.quality}</p>
+        <p class='quality-value'>${idea.quality}</p>
         <button class='completed'>Completed Task</button>
       </section>
       <hr />
@@ -200,9 +198,6 @@ function deleteThis(){
   localStorage.removeItem(id);
   $(this).parent().remove();
 };
-
-
-
 
 function getAllFromLocalStorage(){
   var allItems =[];
