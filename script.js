@@ -15,9 +15,19 @@ function Idea(title, task)  {
 
 $(document).ready(function() {
   var localArray = [];
+  var completed = [];
 	for (var i = 0; i < localStorage.length; i++) {
-		prepend(JSON.parse(localStorage.getItem(localStorage.key(i))));
+    //if completed do some shit
+    var totalTodos = (JSON.parse(localStorage.getItem(localStorage.key(i))))
+    if(totalTodos.status === "idea-card task-click"){
+      completed.push(totalTodos)
+    }else {localArray.push(totalTodos)};
+		// prepend(totalTodos);
 	}
+  var newArray = localArray.concat(completed)
+  newArray.forEach(function(value){
+    prepend(value)
+  })
   chopChop();
   hideCompleted();
 });
@@ -127,7 +137,7 @@ $('.norm-btn').on('click', filterBtns);
 $('.high-btn').on('click', filterBtns);
 $('.crit-btn').on('click', filterBtns);
 
-  function filterBtns(){
+function filterBtns(){
   var filteredList = [];
   var searchText = $(this).text();
   console.log(searchText)
