@@ -86,12 +86,15 @@ textarea::placeholder{
 
 .save-btn{
   width: 300px;
-  height: 25px;
+  height: 30px;
   margin: 0 0 0 0;
   text-decoration: none;
   color: #fff;
   border: none;
   background: #00a79d;
+}
+.filter-container {
+  display: inline;
 }
 
 button:active{
@@ -308,64 +311,53 @@ media query 1000
     .input-title,
     .input-task,
     .save-btn,
-    .search-input
-  {
+    .search-input {
         font-size: 26px;
-
         height: 40px;
     }
 
     .idea,
-    .box
-  {
+    .box {
         font-size: 50px;
     }
 
-    .input-container
-  {
+    .input-container {
         height: 243px;
     }
 
-    .delete-btn
-  {
+    .delete-btn {
         width: 30px;
         height: 30px;
         margin-top: 3px;
     }
 
-    .idea-title
-  {
+    .idea-title {
         font-size: 26px;
     }
 
     .idea-title,
-    .idea-task
-  {
+    .idea-task {
         width: 590px;
     }
 
     .quality,
     .quality-value,
     .completed,
-    .idea-task
-  {
+    .idea-task {
         font-size: 20px;
     }
 
     .arrow-up,
-    .arrow-down
-  {
+    .arrow-down {
         width: 30px;
         height: 30px;
     }
 
-    .idea-card
-  {
+    .idea-card {
         height: 210px;
     }
 
-    hr
-  {
+    hr {
         margin-top: 20px;
     }
 }

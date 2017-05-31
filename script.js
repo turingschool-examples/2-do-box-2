@@ -4,7 +4,7 @@
 function Idea(title, task)  {
   this.title = title;
   this.task = task;
-  this.quality = 'Swill';
+  this.quality = 'Normal';
   this.id = Date.now();
   this.status = 'idea-card';
 }
@@ -60,31 +60,81 @@ $('.card-container').on('click', '.arrow-up',  function() {
   var id = $(this).parent().parent().prop('id');
   var parsedIdea = JSON.parse(localStorage.getItem(id));
   var currentQuality = parsedIdea.quality;
-  if(currentQuality === 'Swill') {
-    parsedIdea.quality = 'Plausible';
-    $(this).siblings('.quality-value').text('Plausible');
+
+  if(currentQuality === 'None') {
+    parsedIdea.quality = 'Low';
+    $(this).siblings('.quality-value').text('Low');
   }
-  else if(currentQuality === 'Plausible') {
-    parsedIdea.quality = 'Genius';
-    $(this).siblings('.quality-value').text('Genius');
+  else if(currentQuality === 'Low') {
+    parsedIdea.quality = 'Normal';
+    $(this).siblings('.quality-value').text('Normal');
   }
+  else if(currentQuality === 'Normal') {
+    parsedIdea.quality = 'High';
+    $(this).siblings('.quality-value').text('High');
+  }
+   else if(currentQuality === 'High') {
+    parsedIdea.quality = 'Critical';
+    $(this).siblings('.quality-value').text('Critical');
+  }
+  // noneLow();
+  // lowNormal();
+  // normalHigh();
   localStorage.setItem(id, JSON.stringify(parsedIdea));
-})
+});
+
+  function noneLow() {
+    if(currentQuality === 'None') {
+      parsedIdea.quality = 'Low';
+      $(this).siblings('.quality-value').text('Low');
+    }
+  }
+
+  function lowNormal() {
+    if(currentQuality === 'Low') {
+      parsedIdea.quality = 'Normal';
+      $(this).siblings('.quality-value').text('Normal');
+    }
+  }
+
+  function normalHigh(){
+    if(currentQuality === 'Normal') {
+      parsedIdea.quality = 'High';
+      $(this).siblings('.quality-value').text('High');
+    }
+  }
+
+  function highCrit(){
+    if(currentQuality === 'High') {
+      parsedIdea.quality = 'Critical';
+      $(this).siblings('.quality-value').text('Critical');
+    }
+  }
 
 $('.card-container').on('click', '.arrow-down',  function() {
   var id = $(this).parent().parent().prop('id');
   var parsedIdea = JSON.parse(localStorage.getItem(id));
   var currentQuality = parsedIdea.quality;
-  if(currentQuality === 'Genius') {
-    parsedIdea.quality = 'Plausible'
-    $(this).siblings('.quality-value').text('Plausible');
+  console.log(currentQuality);
+
+  if(currentQuality === 'Critical') {
+    parsedIdea.quality = 'High';
+    $(this).siblings('.quality-value').text('High');
   }
-  else if(currentQuality === 'Plausible') {
-    parsedIdea.quality = 'Swill';
-    $(this).siblings('.quality-value').text('Swill');
+  else if(currentQuality === 'High') {
+    parsedIdea.quality = 'Normal';
+    $(this).siblings('.quality-value').text('Normal');
+  }
+  else if(currentQuality === 'Normal') {
+    parsedIdea.quality = 'Low';
+    $(this).siblings('.quality-value').text('Low');
+  }
+  else if(currentQuality === 'Low') {
+    parsedIdea.quality = 'None';
+    $(this).siblings('.quality-value').text('None');
   }
   localStorage.setItem(id, JSON.stringify(parsedIdea));
-})
+});
 
 $('.show-btn').on('click', showCompleted)
 
@@ -109,36 +159,7 @@ $('.card-container').on('click', '.completed', function(){
   grabCard.status = clickedCard;
   sendToStorage(grabCard);
 
-
-  // var clicked = $(this).closest('.task-click')
-  // card.toggleClass('task-click') && task.toggleClass('task-click');
-  // sendToStorage(grabCard)
-  // if(card.hasClass('task-click')){
-  //   grabCard.status = 'completed';
-  //   sendToStorage(card);
-  //   console.log(card);
-  // }else{
-  //   grabCard.status = 'not completed';
-  //   sendToStorage(card)
-  // }
 });
-
-  // $('.task-click').toggleClass(localStorage.toggled);
-  // console.log(id);
-   /* Toggle */
-  //  $('').on('click',function(){
-
-      //localstorage values are always strings (no booleans)
-
-//       if (localStorage.toggled != "with_toggle" ) {
-//          $('#container').toggleClass("with_toggle", true );
-//          localStorage.toggled = "with_toggle";
-//       } else {
-//          $('#container').toggleClass("with_toggle", false );
-//          localStorage.toggled = "";
-//       }
-//    });
-// )
 
 //********************************************************************************
 //   functions
@@ -177,9 +198,6 @@ function enableSaveButton13()  {
 }
 }
 
-function hideCompleted() {
-  $('.task-click').hide();
-}
 
 function enableSaveButton()  {
   var ideaTitle = $('.input-title').val();
