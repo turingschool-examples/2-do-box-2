@@ -14,9 +14,11 @@ function Idea(title, task)  {
 //************************************************************
 
 $(document).ready(function() {
+  var localArray = [];
 	for (var i = 0; i < localStorage.length; i++) {
 		prepend(JSON.parse(localStorage.getItem(localStorage.key(i))));
 	}
+  chopChop();
   hideCompleted();
 });
 
@@ -29,10 +31,15 @@ $('.save-btn').on('click', function()  {
   var task = $('.input-task').val();
   var idea = new Idea(title, task);
   prepend(idea);
+  chopChop();
   clearInputFields();
   sendToStorage(idea);
   disableSaveButton();
 })
+
+function chopChop() {
+  $('.idea-card').slice(10).hide();
+}
 
 $(document).keypress(function(e) {
   if(e.which == 13) {
@@ -110,6 +117,31 @@ $('.card-container').on('click', '.arrow-up',  function() {
       $(this).siblings('.quality-value').text('Critical');
     }
   }
+
+$('.none-btn').on('click', filterBtns)
+$('.low-btn').on('click', filterBtns);
+$('.norm-btn').on('click', filterBtns);
+$('.high-btn').on('click', filterBtns);
+$('.crit-btn').on('click', filterBtns);
+
+  function filterBtns(){
+  var filteredList = [];
+  var searchText = $(this).text();
+  console.log(searchText)
+  var fullList = getAllFromLocalStorage();
+  filteredList = fullList.filter(function(item){
+    return item.quality.includes(searchText);
+  })
+  if (filteredList.length > 0) {
+    displaySearchResults(filteredList);
+  }
+}
+
+$('.all-btn').on('click', showAll)
+
+function showAll(){
+  document.reload();
+}
 
 $('.card-container').on('click', '.arrow-down',  function() {
   var id = $(this).parent().parent().prop('id');
@@ -192,6 +224,7 @@ function enableSaveButton13()  {
       $('.save-btn').prop('disabled', true)
   } else {$('.save-btn').prop('disabled', false)
   prepend(idea);
+  chopChop();
   clearInputFields();
   sendToStorage(idea);
   disableSaveButton();
@@ -232,6 +265,7 @@ function deleteThis(){
   var id = $(this).parent().prop('id');
   localStorage.removeItem(id);
   $(this).parent().remove();
+  chopChop();
 };
 
 function getAllFromLocalStorage(){
