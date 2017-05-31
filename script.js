@@ -17,6 +17,7 @@ $(document).ready(function() {
 	for (var i = 0; i < localStorage.length; i++) {
 		prepend(JSON.parse(localStorage.getItem(localStorage.key(i))));
 	}
+  hideCompleted();
 });
 
 $('.input-container').on('keyup', function()  {
@@ -84,6 +85,18 @@ $('.card-container').on('click', '.arrow-down',  function() {
   }
   localStorage.setItem(id, JSON.stringify(parsedIdea));
 })
+
+$('.show-btn').on('click', showCompleted)
+
+$('.hide-btn').on('click', hideCompleted)
+
+function showCompleted() {
+  $('.task-click').show();
+}
+
+function hideCompleted() {
+  $('.task-click').hide();
+}
 
 $('.card-container').on('click', '.completed', function(){
   var card = $(this).closest('.idea-card');
@@ -162,6 +175,10 @@ function enableSaveButton13()  {
   sendToStorage(idea);
   disableSaveButton();
 }
+}
+
+function hideCompleted() {
+  $('.task-click').hide();
 }
 
 function enableSaveButton()  {
