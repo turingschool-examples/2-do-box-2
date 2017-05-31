@@ -41,6 +41,9 @@ function chopChop() {
   $('.idea-card').slice(10).hide();
 }
 
+function chippityChop() {
+  $('.idea-card').slice(0).show();
+}
 $(document).keypress(function(e) {
   if(e.which == 13) {
     enableSaveButton13();
@@ -136,6 +139,8 @@ $('.crit-btn').on('click', filterBtns);
     displaySearchResults(filteredList);
   }
 }
+
+$('.show-Mo').on('click', chippityChop)
 
 $('.all-btn').on('click', showAll)
 
