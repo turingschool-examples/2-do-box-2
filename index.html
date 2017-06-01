@@ -2,39 +2,45 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Idea Box</title>
+    <title>TEAUXdeauxBOX</title>
     <link rel="stylesheet-normalize" href=".git/normalize.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-
     <header>
-      <!-- idea input/ body/ save fields -->
       <section class="input-container">
-        <h1 class='idea'>idea<span class='box'>box</span></h1>
-        <input class='input-title' type='text' placeholder=' Title'>
-        <textarea class='input-body' type='text' placeholder=' Body'></textarea>
-        <button class='save-button' type='button' disabled>save</button>
+        <h1 class='idea'>TEAUXdeaux<span class='box'>BOX</span></h1>
+        <input class='input-title' type='text' placeholder=' Title' />
+        <textarea class='input-task' type='text' placeholder=' Task'></textarea>
+        <button class='save-btn' type='button' disabled>save</button>
+        <div class="toggle-container">
+          <button class='show-btn toggle-btn' type='button'>show completed</button>
+          <button class='hide-btn toggle-btn'>hide completed</button>
+        </div>
+        <input type="button" value="show incompletes" onClick="window.location.reload()" class='all-btn'>
+        <section class="filter-container">
+          <button class='none-btn filter-btn'>None</button>
+          <button class='low-btn filter-btn'>Low</button>
+          <button class='norm-btn filter-btn'>Normal</button>
+          <button class='high-btn filter-btn'>High</button>
+          <button class='crit-btn filter-btn'>Critical</button>
+        </section>
       </section>
     </header>
-
     <main>
-      <!-- search input -->
       <section class='search-container'>
-        <input class='search-input' type='text' placeholder=' Search'>
+        <input class='search-input' type='text' placeholder=' Filter'>
       </section>
-      <!-- idea card append location-->
       <section class='card-container'>
-
       </section>
-
+      <div class="show-more-container">
+        <button class="show-Mo">Show More</button>
+      </div>
     </main>
-
     <footer>
     </footer>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="script.js"></script>
   </body>
