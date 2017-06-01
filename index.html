@@ -19,13 +19,13 @@
           <button class='show-btn toggle-btn' type='button'>show completed</button>
           <button class='hide-btn toggle-btn'>hide completed</button>
         </div>
+        <input type="button" value="show incompletes" onClick="window.location.reload()" class='all-btn'>
         <section class="filter-container">
           <button class='none-btn filter-btn'>None</button>
           <button class='low-btn filter-btn'>Low</button>
           <button class='norm-btn filter-btn'>Normal</button>
           <button class='high-btn filter-btn'>High</button>
           <button class='crit-btn filter-btn'>Critical</button>
-          <input type="button" value="Show All Incompletes" onClick="window.location.reload()" class='all-btn filter-btn'>
         </section>
       </section>
     </header>
@@ -35,7 +35,9 @@
       </section>
       <section class='card-container'>
       </section>
-      <button class="show-Mo">Show More</button>
+      <div class="show-more-container">
+        <button class="show-Mo">Show More</button>
+      </div>
     </main>
     <footer>
     </footer>
