@@ -9,205 +9,6 @@ function Idea(title, task)  {
   this.status = 'idea-card';
 }
 
-//************************************************************
-//  event listensers
-//************************************************************
-
-$(document).ready(function() {
-  var localArray = [];
-  var completed = [];
-	for (var i = 0; i < localStorage.length; i++) {
-    //if completed do some shit
-    var totalTodos = (JSON.parse(localStorage.getItem(localStorage.key(i))))
-    if(totalTodos.status === "idea-card task-click"){
-      completed.push(totalTodos)
-    }else {localArray.push(totalTodos)};
-		// prepend(totalTodos);
-	}
-  var newArray = localArray.concat(completed)
-  newArray.forEach(function(value){
-    prepend(value)
-  })
-  chopChop();
-  hideCompleted();
-});
-
-$('.input-container').on('keyup', function()  {
-  enableSaveButton();
-})
-
-$('.save-btn').on('click', function()  {
-  var title = $('.input-title').val();
-  var task = $('.input-task').val();
-  var idea = new Idea(title, task);
-  prepend(idea);
-  chopChop();
-  clearInputFields();
-  sendToStorage(idea);
-  disableSaveButton();
-})
-
-function chopChop() {
-  $('.idea-card').slice(10).hide();
-}
-
-function chippityChop() {
-  $('.idea-card').slice(0).show();
-}
-$(document).keypress(function(e) {
-  if(e.which == 13) {
-    enableSaveButton13();
-  }
-})
-
-$('.card-container').on('keyup', '.idea-title',  function() {
-	var id = $(this).parent().prop('id');
-	var parsedIdea = JSON.parse(localStorage.getItem(id))
-	parsedIdea.title = $(this).val()
-	localStorage.setItem(id, JSON.stringify(parsedIdea))
-})
-
-
-$('.card-container').on('keyup', '.idea-task',  function() {
-	var id = $(this).parent().prop('id');
-	var parsedIdea = JSON.parse(localStorage.getItem(id))
-	parsedIdea.task = $(this).val()
-	localStorage.setItem(id, JSON.stringify(parsedIdea))
-})
-
-
-$('.card-container').on('click', '.arrow-up',  function() {
-  var id = $(this).parent().parent().prop('id');
-  var parsedIdea = JSON.parse(localStorage.getItem(id));
-  var currentQuality = parsedIdea.quality;
-
-  if(currentQuality === 'None') {
-    parsedIdea.quality = 'Low';
-    $(this).siblings('.quality-value').text('Low');
-  }
-  else if(currentQuality === 'Low') {
-    parsedIdea.quality = 'Normal';
-    $(this).siblings('.quality-value').text('Normal');
-  }
-  else if(currentQuality === 'Normal') {
-    parsedIdea.quality = 'High';
-    $(this).siblings('.quality-value').text('High');
-  }
-   else if(currentQuality === 'High') {
-    parsedIdea.quality = 'Critical';
-    $(this).siblings('.quality-value').text('Critical');
-  }
-  // noneLow();
-  // lowNormal();
-  // normalHigh();
-  localStorage.setItem(id, JSON.stringify(parsedIdea));
-});
-
-  function noneLow() {
-    if(currentQuality === 'None') {
-      parsedIdea.quality = 'Low';
-      $(this).siblings('.quality-value').text('Low');
-    }
-  }
-
-  function lowNormal() {
-    if(currentQuality === 'Low') {
-      parsedIdea.quality = 'Normal';
-      $(this).siblings('.quality-value').text('Normal');
-    }
-  }
-
-  function normalHigh(){
-    if(currentQuality === 'Normal') {
-      parsedIdea.quality = 'High';
-      $(this).siblings('.quality-value').text('High');
-    }
-  }
-
-  function highCrit(){
-    if(currentQuality === 'High') {
-      parsedIdea.quality = 'Critical';
-      $(this).siblings('.quality-value').text('Critical');
-    }
-  }
-
-$('.none-btn').on('click', filterBtns)
-$('.low-btn').on('click', filterBtns);
-$('.norm-btn').on('click', filterBtns);
-$('.high-btn').on('click', filterBtns);
-$('.crit-btn').on('click', filterBtns);
-
-function filterBtns(){
-  var filteredList = [];
-  var searchText = $(this).text();
-  console.log(searchText)
-  var fullList = getAllFromLocalStorage();
-  filteredList = fullList.filter(function(item){
-    return item.quality.includes(searchText);
-  })
-  if (filteredList.length > 0) {
-    displaySearchResults(filteredList);
-  }
-}
-
-$('.show-Mo').on('click', chippityChop)
-
-$('.all-btn').on('click', showAll)
-
-function showAll(){
-  document.reload();
-}
-
-$('.card-container').on('click', '.arrow-down',  function() {
-  var id = $(this).parent().parent().prop('id');
-  var parsedIdea = JSON.parse(localStorage.getItem(id));
-  var currentQuality = parsedIdea.quality;
-  console.log(currentQuality);
-
-  if(currentQuality === 'Critical') {
-    parsedIdea.quality = 'High';
-    $(this).siblings('.quality-value').text('High');
-  }
-  else if(currentQuality === 'High') {
-    parsedIdea.quality = 'Normal';
-    $(this).siblings('.quality-value').text('Normal');
-  }
-  else if(currentQuality === 'Normal') {
-    parsedIdea.quality = 'Low';
-    $(this).siblings('.quality-value').text('Low');
-  }
-  else if(currentQuality === 'Low') {
-    parsedIdea.quality = 'None';
-    $(this).siblings('.quality-value').text('None');
-  }
-  localStorage.setItem(id, JSON.stringify(parsedIdea));
-});
-
-$('.show-btn').on('click', showCompleted)
-
-$('.hide-btn').on('click', hideCompleted)
-
-function showCompleted() {
-  $('.task-click').show();
-}
-
-function hideCompleted() {
-  $('.task-click').hide();
-}
-
-$('.card-container').on('click', '.completed', function(){
-  var card = $(this).closest('.idea-card');
-  var task = card.find('.idea-task');
-  var id = card.attr('id');
-  var grabCard = getFromStorage(id);
-    card.toggleClass('task-click')
-    console.log(card.attr('class'));
-  var clickedCard = card.attr('class');
-  grabCard.status = clickedCard;
-  sendToStorage(grabCard);
-
-});
-
 //********************************************************************************
 //   functions
 //*********************************************************************************
@@ -246,14 +47,13 @@ function enableSaveButton13()  {
 }
 }
 
-
 function enableSaveButton()  {
   var ideaTitle = $('.input-title').val();
   var ideaBody = $('.input-task').val();
     if (ideaTitle === "" || ideaBody === "") {
       $('.save-btn').prop('disabled', true)
   } else {$('.save-btn').prop('disabled', false)
-}
+  }
 }
 
 function disableSaveButton() {
@@ -274,7 +74,9 @@ function getFromStorage(id) {
 	return parsedIdea;
 }
 
-$('.card-container').on('click', '.delete-btn', deleteThis)
+function showAll(){
+  document.reload();
+}
 
 function deleteThis(){
   var id = $(this).parent().prop('id');
@@ -311,4 +113,139 @@ function displaySearchResults(searchResults) {
   })
 }
 
+function showCompleted() {
+  $('.task-click').show();
+}
+
+function hideCompleted() {
+  $('.task-click').hide();
+}
+
+function chopChop() {
+  $('.idea-card').slice(10).hide();
+}
+
+function chippityChop() {
+  $('.idea-card').slice(0).show();
+}
+
+function filterBtns(){
+  var filteredList = [];
+  var searchText = $(this).text();
+  console.log(searchText)
+  var fullList = getAllFromLocalStorage();
+  filteredList = fullList.filter(function(item){
+    return item.quality.includes(searchText);
+  })
+  if (filteredList.length > 0) {
+    displaySearchResults(filteredList);
+  }
+}
+
+//************************************************************
+//  event listensers
+//************************************************************
+
+$(document).ready(function() {
+  var localArray = [];
+  var completed = [];
+  for (var i = 0; i < localStorage.length; i++) {
+    var totalTodos = (JSON.parse(localStorage.getItem(localStorage.key(i))))
+    if(totalTodos.status === "idea-card task-click"){
+      completed.push(totalTodos)
+    }else {localArray.push(totalTodos)};
+  }
+  var newArray = localArray.concat(completed)
+  newArray.forEach(function(value){
+    prepend(value)
+  })
+  chopChop();
+  hideCompleted();
+});
+
+$(document).keypress(function(e) {
+  if(e.which == 13) {
+    enableSaveButton13();
+  }
+})
+
+$('.save-btn').on('click', function()  {
+  var title = $('.input-title').val();
+  var task = $('.input-task').val();
+  var idea = new Idea(title, task);
+  prepend(idea);
+  chopChop();
+  clearInputFields();
+  sendToStorage(idea);
+  disableSaveButton();
+})
+
+$('.card-container').on('keyup', '.idea-title',  function() {
+  var id = $(this).parent().prop('id');
+  var parsedIdea = JSON.parse(localStorage.getItem(id))
+  parsedIdea.title = $(this).val()
+  localStorage.setItem(id, JSON.stringify(parsedIdea))
+})
+
+$('.card-container').on('keyup', '.idea-task',  function() {
+  var id = $(this).parent().prop('id');
+  var parsedIdea = JSON.parse(localStorage.getItem(id))
+  parsedIdea.task = $(this).val()
+  localStorage.setItem(id, JSON.stringify(parsedIdea))
+})
+
+$('.card-container').on('click', '.arrow-up',  function() {
+  var id = $(this).parent().parent().prop('id');
+  var parsedIdea = JSON.parse(localStorage.getItem(id));
+  var currentQuality = parsedIdea.quality;
+  var newQuality = {Critical: "Critical", High: "Critical", Normal: "High", Low: "Normal", None: "Low"}
+  parsedIdea.quality = newQuality[currentQuality]
+  $(this).siblings('.quality-value').text(newQuality[currentQuality])
+  localStorage.setItem(id, JSON.stringify(parsedIdea));
+});
+
+$('.card-container').on('click', '.arrow-down',  function() {
+  var id = $(this).parent().parent().prop('id');
+  var parsedIdea = JSON.parse(localStorage.getItem(id));
+  var currentQuality = parsedIdea.quality;
+  var newQuality = {None: "None", Low: "None", Normal: "Low", High: "Normal", Critical: "High"}
+  parsedIdea.quality = newQuality[currentQuality]
+  $(this).siblings('.quality-value').text(newQuality[currentQuality])
+  localStorage.setItem(id, JSON.stringify(parsedIdea));
+});
+
+$('.card-container').on('click', '.completed', function(){
+  var card = $(this).closest('.idea-card');
+  var id = card.attr('id');
+  var grabCard = getFromStorage(id);
+  card.toggleClass('task-click')
+  var clickedCard = card.attr('class');
+  grabCard.status = clickedCard;
+  sendToStorage(grabCard);
+});
+
+$('.show-Mo').on('click', chippityChop);
+
+$('.all-btn').on('click', showAll);
+
+$('.card-container').on('click', '.delete-btn', deleteThis);
+
+$('.hide-btn').on('click', hideCompleted);
+
+$('.show-btn').on('click', showCompleted);
+
+$('.none-btn').on('click', filterBtns);
+
+$('.low-btn').on('click', filterBtns);
+
+$('.norm-btn').on('click', filterBtns);
+
+$('.high-btn').on('click', filterBtns);
+
+$('.crit-btn').on('click', filterBtns);
+
 $(".search-input").on("keyup", filterList);
+
+$('.input-container').on('keyup', function()  {
+  enableSaveButton();
+})
