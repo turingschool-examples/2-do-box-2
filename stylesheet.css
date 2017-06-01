@@ -32,7 +32,7 @@ header{
   display: flex;
   flex-direction: column;
   width: 320px;
-  height: 226px;
+  height: auto;
   margin: auto;
   background: #e5f3f2;
   align-items: center;
@@ -84,7 +84,11 @@ textarea::placeholder{
   color: #939598;
 }
 
-.save-btn{
+.save-btn,
+.toggle-btn,
+.all-btn,
+.filter-btn,
+.show-Mo {
   width: 300px;
   height: 30px;
   margin: 0 0 0 0;
@@ -93,8 +97,31 @@ textarea::placeholder{
   border: none;
   background: #00a79d;
 }
+
+.toggle-container {
+  margin: 5px auto;
+}
+
+.show-btn {
+  height: 30px;
+  width: 145px;
+  margin-right: 2.5px;
+}
+
+.hide-btn {
+  height: 30px;
+  width: 145px;
+  margin-left: 2.5px;
+}
+
 .filter-container {
   display: inline;
+}
+
+.filter-btn {
+  height: 20px;
+  width: 56.5px;
+  margin: 5px auto 10px auto;
 }
 
 button:active{
@@ -265,6 +292,11 @@ hr{
   background-color: #d1d3d4;
 }
 
+.show-Mo {
+  height: 50px;
+  width: 100%
+}
+
 /***************************************
 media query 750
 ****************************************/
@@ -280,8 +312,19 @@ media query 750
   .input-task,
   .save-btn,
   .search-input,
-  .idea-card {
+  .idea-card,
+  .all-btn {
     width: 410px;
+  }
+
+  .show-btn,
+  .hide-btn {
+    height: 30px;
+    width: 200px;
+  }
+
+  .filter-btn {
+    width: 78.5px;
   }
 
   .idea-task{
@@ -291,6 +334,7 @@ media query 750
   .idea-title{
     width: 375px;
     }
+
 }
 
 
@@ -303,8 +347,8 @@ media query 1000
     .input-task,
     .save-btn,
     .search-input,
-    .idea-card
-  {
+    .idea-card,
+    .all-btn {
         width: 640px;
     }
 
@@ -316,13 +360,27 @@ media query 1000
         height: 40px;
     }
 
+    .show-btn,
+    .hide-btn {
+      font-size: 20px;
+      width: 315px;
+    }
+
+    .all-btn{
+      font-size: 20px;
+    }
+
+    .filter-btn {
+      width: 124.4px;
+    }
+
     .idea,
     .box {
         font-size: 50px;
     }
 
     .input-container {
-        height: 243px;
+        height: 320px;
     }
 
     .delete-btn {
@@ -331,7 +389,8 @@ media query 1000
         margin-top: 3px;
     }
 
-    .idea-title {
+    .idea-title,
+    .show-Mo {
         font-size: 26px;
     }
 
@@ -360,4 +419,5 @@ media query 1000
     hr {
         margin-top: 20px;
     }
+
 }
